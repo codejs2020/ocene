@@ -15,7 +15,8 @@ class ClassUnit {
   constructor (id, year) {
     this.id = id
     this.year = year
-    
+    this.subjects = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.year === this.year)
+    this.students = JSON.parse(localStorage.getItem('students')).filter(student => student.classUnit === this.id)
   }
 }
 
@@ -34,17 +35,15 @@ class Student {
     this.id = id
     this.name = name
     this.surname = surname
-    this.classUnit = classUnit}
-
-    getAllGrades() {
-      return JSON.parse(localStorage.getItem('grades')).filter(grade => grade.student === this.id)}
-  
+    this.classUnit = classUnit
+    this.grades = JSON.parse(localStorage.getItem('grades')).filter(grade => grade.student === this.id)
+  }
 
   getGradesForSubject (subjectId) {
     const gradesForSubject = JSON.parse(localStorage.getItem('grades')).filter(subject => subject.id === subjectId && student.id === this.id)
-    return gradesForSubject}
+    return gradesForSubject
   }
-
+}
 
 class User {
   constructor (id, name, surname, username, password, typeOfUser) {
@@ -67,10 +66,10 @@ class Parent extends User {
 class Teacher extends User {
   constructor (id, name, surname, username, password, typeOfUser = userTypes.teacher) {
     super(id, name, surname, username, password)
+    this.subjects = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === this.id)
     this.typeOfUser = typeOfUser
-    }
-    getSubjects(){
-      return JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === this.id)}
+    
+  }
 }
 let personId = 0
 let subjectId = 0

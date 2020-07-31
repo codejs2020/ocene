@@ -34,11 +34,9 @@ class Student {
     this.id = id
     this.name = name
     this.surname = surname
-    this.classUnit = classUnit}
-
-    getAllGrades() {
-      return JSON.parse(localStorage.getItem('grades')).filter(grade => grade.student === this.id)}
-  
+    this.classUnit = classUnit
+    this.grades = JSON.parse(localStorage.getItem('grades')).filter(grade => grade.student === this.id)
+  }
 
   getGradesForSubject (subjectId) {
     const gradesForSubject = JSON.parse(localStorage.getItem('grades')).filter(subject => subject.id === subjectId && student.id === this.id)
