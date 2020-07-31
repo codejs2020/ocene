@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/css/style.css">
   <title>CRUD</title>
 </head>
 <body>
+  <div class="container">
   <button type="button">Add new</button>
   <form action="" method="post" id="add-new-form">
     <p>
@@ -24,27 +26,20 @@
   <table>
     <thead>
       <tr>
-        <th></th>
-        <th></th>
         <th>ID</th>
         <th>Name</th>
         <th>Surname</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody id="dataFromLS">
-      <tr>
-        <td>
-          <button data-id="1" onclick="editPerson(1)">Edit</button>
-        </td>
-        <td>
-          <button data-id="1" onclick="deletePerson(1)">Delete</button>
-        </td>
-        <td>1</td>
-        <td>Petar</td>
-        <td>Petrović</td>
-      </tr>
+      
+      
     </tbody>
   </table>
-  <script src="index.js"></script>
+</div>
+  <script src="/src/js/admin.js"></script>
+  <script src="/src/js/model.js"></script>
 </body>
 </html>
