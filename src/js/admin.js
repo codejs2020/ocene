@@ -24,9 +24,18 @@ document.getElementById('add-new-form').addEventListener('submit', function (eve
 function getAllPersons () {
   const dataFromStorage = d('dataFromLS')
   const allPersons = JSON.parse(localStorage.getItem('persons'))
-  let output = '<tr>'
+  let output = ''
   for (const person of allPersons) {
-    output += `<td>${person.id}</td><td>${person.name}</td><td>${person.surname}</td><td><button data-id="${person.id}" onclick="editPerson(${person.id})">Edit</button></td><td><button data-id="${person.id}" onclick="deletePerson(${person.id})">Delete</button><button data-id="${person.id}" onclick="viewPerson(${person.id})">View Profile</button></td></tr>`
+    output += `
+      <tr>
+        <td>${person.id}</td><td>${person.name}</td>
+        <td>${person.surname}</td>
+        <td><button data-id="${person.id}" onclick="editPerson(${person.id})">Edit</button></td>
+        <td>
+          <button data-id="${person.id}" onclick="deletePerson(${person.id})">Delete</button>
+          <button data-id="${person.id}" onclick="viewPerson(${person.id})">View Profile</button>
+        </td>
+      </tr>`
   }
   dataFromStorage.innerHTML = output
 }

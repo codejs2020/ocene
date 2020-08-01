@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, no-unused-vars */
 const userTypes = {
   parent: 1,
   teacher: 2
@@ -11,6 +12,7 @@ class Subject {
     this.year = year
   }
 }
+
 class ClassUnit {
   constructor (id, year) {
     this.id = id
@@ -50,67 +52,82 @@ class Student {
 }
 
 class User {
-  constructor (id, name, surname, username, password, typeOfUser) {
+  constructor (id, name, surname, username, password) {
     this.id = id
     this.name = name
     this.surname = surname
     this.username = username
     this.password = password
-    this.typeOfUser = typeOfUser
   }
 }
 
 class Parent extends User {
-  constructor (id, name, surname, username, password, student, typeOfUser = userTypes.parent) {
+  constructor (id, name, surname, username, password, student) {
     super(id, name, surname, username, password)
     this.student = student
-    this.typeOfUser = typeOfUser
+    this.typeOfUser = userTypes.parent
   }
 }
+
 class Teacher extends User {
-  constructor (id, name, surname, username, password, typeOfUser = userTypes.teacher) {
+  constructor (id, name, surname, username, password) {
     super(id, name, surname, username, password)
     this.subjects = localStorage.getItem('subjects')
-    this.typeOfUser = typeOfUser
+    this.typeOfUser = userTypes.teacher
     // .filter(subject => subject.teacher === this.id)
   }
 }
-let personId = 0
-let subjectId = 0
-const math1 = new Subject(++subjectId, 'Mathematics 1', 1, 1)
-const english1 = new Subject(++subjectId, 'English 1', 2, 1)
-const history1 = new Subject(++subjectId, 'History 1', 3, 1)
-const subjects = [math1, english1, history1]
-localStorage.setItem('subjects', JSON.stringify(subjects))
+
+const storageData = { subjects: [], students: [], teachers: [], parents: [], grades: [] }
+const constructors = { subjects: Subject, students: Student, teachers: Teacher, parents: Parent, grades: Grade }
+const data = {
+  subjects: [
+    ['Mathematics 1', 1, 1],
+    ['English 1', 2, 1],
+    ['History 1', 3, 1]
+  ],
+  students: [
+    ['Marko', 'Markovic', 1],
+    ['Maja', 'Majic', 1],
+    ['Milos', 'Milosevic', 1]
+  ],
+  teachers: [
+    ['Rajka', 'Matematicarka', 'rajka', '123'],
+    ['Borka', 'Engleskinja', 'borkaEng', '234'],
+    ['Zika', 'Istoricar', 'zikaIst', '456']
+  ],
+  parents: [
+    ['Markov Cale', 'Markovic', 'maretovLeca', 'abc'],
+    ['Majina Keva', 'Majic', 'majinaKeva', 'aaa'],
+    ['Milosevi Matorci', 'Milosevic', 'milosevici', '111']
+  ],
+  grades: [
+    [1, 1, 3],
+    [1, 2, 3],
+    [1, 1, 4],
+    [1, 2, 2],
+    [1, 3, 5],
+    [1, 3, 4],
+    [2, 1, 5],
+    [2, 2, 5],
+    [2, 4, 5],
+    [3, 2, 2],
+    [3, 3, 5],
+    [3, 2, 4]
+  ]
+}
+
 const classUnit1 = new ClassUnit(1, 1)
-const student1 = new Student(++personId, 'Marko', 'Markovic', 1)
-const student2 = new Student(++personId, 'Maja', 'Majic', 1)
-const student3 = new Student(++personId, 'Milos', 'Milosevic', 1)
-const students = [student1, student2, student3]
-localStorage.setItem('students', JSON.stringify(students))
-const teacher1 = new Teacher(++personId, 'Rajka', 'Matematicarka', 'rajka', '123')
-const teacher2 = new Teacher(++personId, 'Borka', 'Engleskinja', 'borkaEng', '234')
-const teacher3 = new Teacher(++personId, 'Zika', 'Istoricar', 'zikaIst', '456')
-const teachers = [teacher1, teacher2, teacher3]
-const parent1 = new Parent(++personId, 'Markov Cale', 'Markovic', 'maretovLeca', 'abc')
-const parent2 = new Parent(++personId, 'Majina Keva', 'Majic', 'majinaKeva', 'aaa')
-const parent3 = new Parent(++personId, 'Milosevi Matorci', 'Milosevic', 'milosevici', '111')
-const parents = [parent1, parent2, parent3]
-const allUsers = [...teachers, ...parents]
-localStorage.setItem('users', JSON.stringify(allUsers))
-const grade1 = new Grade(1, 1, 1, 3)
-const grade2 = new Grade(2, 1, 2, 3)
-const grade3 = new Grade(3, 1, 1, 4)
-const grade4 = new Grade(4, 1, 2, 2)
-const grade5 = new Grade(5, 1, 3, 5)
-const grade6 = new Grade(6, 1, 3, 4)
-const grade7 = new Grade(7, 2, 1, 5)
-const grade8 = new Grade(8, 2, 2, 5)
-const grade9 = new Grade(9, 2, 4, 5)
-const grade10 = new Grade(10, 3, 2, 2)
-const grade11 = new Grade(11, 3, 3, 5)
-const grade12 = new Grade(12, 3, 2, 4)
-allGrades = [grade1, grade2, grade3, grade4, grade5, grade6, grade7, grade8, grade9, grade10, grade11, grade12]
-localStorage.setItem('grades', JSON.stringify(allGrades))
-const persons = [...students, ...teachers]
-localStorage.setItem('persons', JSON.stringify(persons))
+for (const type in data) {
+  for (let i = 1; i <= data[type].length; i++) {
+    storageData[type].push(new constructors[type](i, ...data[type]))
+  }
+}
+
+if (localStorage.getItem('grades') === null) { // ne briši ako već postoji nešto
+  localStorage.setItem('grades', JSON.stringify(storageData.grades))
+  localStorage.setItem('students', JSON.stringify(storageData.students))
+  localStorage.setItem('subjects', JSON.stringify(storageData.subjects))
+  localStorage.setItem('users', JSON.stringify([...storageData.teachers, ...storageData.parents]))
+  localStorage.setItem('persons', JSON.stringify([...storageData.students, ...storageData.teachers]))
+}
