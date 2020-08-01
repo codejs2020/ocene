@@ -119,7 +119,8 @@ const data = {
 const classUnit1 = new ClassUnit(1, 1)
 for (const type in data) {
   for (let i = 1; i <= data[type].length; i++) {
-    storageData[type].push(new constructors[type](i, ...data[type]))
+    const row = data[type][i - 1]
+    storageData[type].push(new constructors[type](i, ...row))
   }
 }
 
