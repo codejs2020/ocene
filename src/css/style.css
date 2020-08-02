@@ -1,23 +1,30 @@
 *{
     box-sizing: border-box;
 }
-
+body{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,0.9192051820728291) 0%, rgba(226,250,255,1) 17%, rgba(150,237,255,1) 91%)
+}
 
 #container{
-
+    background-color: #fff;
     border: 1px solid #d6cfcf;
     border-radius: 15px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     padding: 20px;
-    margin: 50px;
-    width: 35vw;
+    margin: 50px auto;
+    width: 55vw;
     height: 86vh;
 }
 .login-field{
     display: block;
+    padding: 10px;
     border: 1px solid rgb(48, 48, 231);
     border-radius: 15px;
     margin-bottom: 30px;
+}
+.login-field:focus{
+    outline:0;
 }
 .redText{
     color: rgb(255, 55, 55);
@@ -30,4 +37,29 @@
 
 .table td{
     text-align: center;
+}
+
+#mainMenu{
+    
+    border: 1px solid #d6cfcf;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    padding: 20px;
+    margin-top: 12vh;
+    width: 35vw;
+    min-height: 35vh;
+    
+}
+.btn{
+    border: 1px solid rgb(48, 48, 231);
+    border-radius: 15px;
+    padding: 10px;
+}
+.btn:hover{
+   cursor: pointer;
+   background-color:rgb(48, 48, 231) ;
+   color: #fff;
+}
+.btn:focus {
+    outline:0;
 }

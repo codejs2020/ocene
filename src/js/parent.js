@@ -1,4 +1,6 @@
 const loggedUser =JSON.parse(sessionStorage.getItem('user'))
+const printGradesButton = d('printGrades-btn')
+
 if (!loggedUser){
   d('container').innerHTML="ACCESS DENIED"
 }else{
@@ -35,6 +37,18 @@ function d (id) {
     sessionStorage.removeItem('user')
   }
 
+  function printGrades(){
+    let greeting = d('parentGreeting').textContent
+    d('parentGreeting').textContent = ''
+    logOutButton.style.display = 'none'
+    printGradesButton.style.display = 'none'
+    print()
+    d('parentGreeting').textContent = greeting
+    logOutButton.style.display = 'initial'
+    printGradesButton.style.display = 'initial'
+  }
+
   logOutButton.addEventListener('click',logOutUser)
+  printGradesButton.addEventListener('click',printGrades)
 
   getAllGrades()

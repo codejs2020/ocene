@@ -9,37 +9,17 @@
 <body>
   <div id="container">
     <h2 id="userGreeting"></h2>
-    <button type="button" id="logout-btn">Log out</button>
-  <button type="button">Add new</button>
-  <form action="" method="post" id="add-new-form">
-    <p>
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name" required>
-    </p>
-    <p>
-      <label for="surname">Surname</label>
-      <input type="text" name="surname" id="surname" required>
-    </p>
-    <input type="hidden" name="id" id="id" value=''>
-
-    <input type="submit" value="Submit">
-  </form>
-
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="dataFromLS">
-      
-      
-    </tbody>
-  </table>
+    
+  <button type="button" class="btn" id="addNewStudent-btn">Add new Student</button>
+  <button type="button" class="btn" id="addNewTeacher-btn">Add new Teacher</button>
+  <button type="button" class="btn" id="viewAllStudents-btn">View All Students</button>
+  <button type="button" class="btn" id="viewAllTeachers-btn">View All Teachers</button>
+  <button type="button" class="btn" id="viewEveryone-btn">View Every Person</button>
+  <button type="button" id="logout-btn" class="btn">Log out</button>
+  
+  <div id="mainMenu">
+  <h2>Please choose an option</h2>
+</div>
 </div>
   <script src="/src/js/model.js"></script>
   <script src="/src/js/admin.js"></script>
