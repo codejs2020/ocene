@@ -7,14 +7,15 @@
     <title>Parent</title>
 </head>
 <body>
-    <div class="container">
+    <div id="container">
     <button type="button" id="logout-btn">Log out</button>
     <h2 id="parentGreeting"></h2>
-    <table>
+    <table class="table">
         <thead>
           <tr>
             <th>Subject</th>
             <th>Grade</th>
+            <th>Date of Grade</th>
           </tr>
         </thead>
         <tbody id="dataFromLS">
@@ -23,6 +24,8 @@
         </tbody>
       </table>
     </div>
+    <script src="/src/js/model.js"></script>
     <script src="/src/js/parent.js"></script>
+    
 </body>
 </html>

@@ -65,7 +65,7 @@ class Parent extends User {
     this.typeOfUser = userTypes.parent
   }
   getMyStudent(){
-    return students.filter(student=>student.parentId === this.id)
+    return JSON.parse(localStorage.getItem('students')).filter(student=>student.parentId == this.id)[0]
   }
 }
 
@@ -89,9 +89,9 @@ const data = {
     ['History 1', 3, 1]
   ],
   students: [
-    ['Marko', 'Markovic', 1,7],
-    ['Maja', 'Majic', 1,8],
-    ['Milos', 'Milosevic', 1,9],
+    ['Marko', 'Markovic', 1,1],
+    ['Maja', 'Majic', 1,2],
+    ['Milos', 'Milosevic', 1,3],
     
   ],
   teachers: [
@@ -128,11 +128,11 @@ for (const type in data) {
   }
 }
 
-if (localStorage.getItem('grades') === null) { // ne briši ako već postoji nešto
+// if (localStorage.getItem('grades') === null) { // ne briši ako već postoji nešto
   localStorage.setItem('grades', JSON.stringify(storageData.grades))
   localStorage.setItem('students', JSON.stringify(storageData.students))
   localStorage.setItem('subjects', JSON.stringify(storageData.subjects))
   localStorage.setItem('users', JSON.stringify([...storageData.teachers, ...storageData.parents]))
   localStorage.setItem('persons', JSON.stringify([...storageData.students, ...storageData.teachers]))
-}
+// }
 

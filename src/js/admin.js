@@ -1,6 +1,11 @@
 const loggedUser =JSON.parse(sessionStorage.getItem('user'))
+const logOutButton = d('logout-btn')
+if (!loggedUser){
+  d('container').innerHTML="ACCESS DENIED"
+}
+else{
 d('userGreeting').textContent = `Hello ${loggedUser.name} !`
-
+}
 function addNewPerson (name, surname) {
   let persons = localStorage.getItem('persons')
   if (persons == null) {
@@ -41,4 +46,12 @@ function getAllPersons () {
   }
   dataFromStorage.innerHTML = output
 }
+function logOutUser(){
+  
+  window.location.href="/src/html/index.html"
+  sessionStorage.removeItem('user')
+}
+
+logOutButton.addEventListener('click',logOutUser)
+
 getAllPersons()

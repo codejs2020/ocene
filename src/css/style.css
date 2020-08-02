@@ -3,7 +3,7 @@
 }
 
 
-.container{
+#container{
 
     border: 1px solid #d6cfcf;
     border-radius: 15px;
@@ -21,4 +21,13 @@
 }
 .redText{
     color: rgb(255, 55, 55);
+}
+
+.table {
+	width:100%;
+	border:1px solid rgb(158, 157, 157);
+}
+
+.table td{
+    text-align: center;
 }
