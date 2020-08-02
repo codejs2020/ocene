@@ -15,6 +15,7 @@ function checkIfUserIsValid (event) {
       const userType = user.typeOfUser
       if (userType === 2) window.location.href = '/src/html/admin.html'
       if (userType === 1) window.location.href = '/src/html/parent.html'
+      sessionStorage.setItem('user',JSON.stringify(user))
     }
   }
   if (!userFound) {

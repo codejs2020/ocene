@@ -31,11 +31,12 @@ class Grade {
 }
 
 class Student {
-  constructor (id, name, surname, classUnit) {
+  constructor (id, name, surname, classUnit, parentId) {
     this.id = id
     this.name = name
     this.surname = surname
     this.classUnit = classUnit
+    this.parentId = parentId
   }
 
   getAllGrades () {
@@ -59,17 +60,19 @@ class User {
 }
 
 class Parent extends User {
-  constructor (id, name, surname, username, password, student) {
+  constructor (id, name, surname, username, password) {
     super(id, name, surname, username, password)
-    this.student = student
     this.typeOfUser = userTypes.parent
+  }
+  getMyStudent(){
+    return students.filter(student=>student.parentId === this.id)
   }
 }
 
 class Teacher extends User {
-  constructor (id, name, surname, username, password, typeOfUser = userTypes.teacher) {
+  constructor (id, name, surname, username, password) {
     super(id, name, surname, username, password)
-    this.typeOfUser = typeOfUser
+    this.typeOfUser = userTypes.teacher
   }
 
   getSubjects () {
@@ -86,9 +89,10 @@ const data = {
     ['History 1', 3, 1]
   ],
   students: [
-    ['Marko', 'Markovic', 1],
-    ['Maja', 'Majic', 1],
-    ['Milos', 'Milosevic', 1]
+    ['Marko', 'Markovic', 1,7],
+    ['Maja', 'Majic', 1,8],
+    ['Milos', 'Milosevic', 1,9],
+    
   ],
   teachers: [
     ['Rajka', 'Matematicarka', 'rajka', '123'],
@@ -131,3 +135,4 @@ if (localStorage.getItem('grades') === null) { // ne briši ako već postoji ne�
   localStorage.setItem('users', JSON.stringify([...storageData.teachers, ...storageData.parents]))
   localStorage.setItem('persons', JSON.stringify([...storageData.students, ...storageData.teachers]))
 }
+

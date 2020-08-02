@@ -1,3 +1,5 @@
+const loggedUser =JSON.parse(sessionStorage.getItem('user'))
+d('userGreeting').textContent = `Hello ${loggedUser.name} !`
 
 function addNewPerson (name, surname) {
   let persons = localStorage.getItem('persons')
