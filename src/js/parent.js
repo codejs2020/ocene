@@ -23,10 +23,10 @@ function d (id) {
     const studentGrades = JSON.parse(localStorage.getItem('grades')).filter(grade => grade.student == studentJson['id'])
     let output = ''
     for (const grade of studentGrades) {
-      let gradeName = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.id === grade['subject'])[0].name
+      let subjectName = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.id === grade['subject'])[0].name
       output += `
         <tr>
-          <td>${gradeName}</td><td>${grade.valueOfGrade}</td><td>${grade.dateOfGrade}</td>
+          <td>${subjectName}</td><td>${grade.valueOfGrade}</td><td>${grade.dateOfGrade}</td>
         </tr>`
     }
     gradesTable.innerHTML = output
