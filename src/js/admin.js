@@ -1,18 +1,19 @@
+/* eslint-disable no-undef, no-unused-vars */
+
 const loggedUser = JSON.parse(sessionStorage.getItem('user'))
 const logOutButton = d('logout-btn')
 const addNewStudentButton = d('addNewStudent-btn')
 const addNewTeacherButton = d('addNewTeacher-btn')
 const viewAllStudentsButton = d('viewAllStudents-btn')
 const viewAllTeachersButton = d('viewAllTeachers-btn')
-let mainMenu = d('mainMenu')
+const mainMenu = d('mainMenu')
 
 if (!loggedUser) {
-  d('container').innerHTML = "ACCESS DENIED"
-}
-else {
+  d('container').innerHTML = 'ACCESS DENIED'
+} else {
   d('userGreeting').textContent = `Hello ${loggedUser.name} !`
 }
-function addNewPerson(name, surname) {
+function addNewPerson (name, surname) {
   let persons = localStorage.getItem('persons')
   if (persons == null) {
     persons = []
@@ -23,35 +24,29 @@ function addNewPerson(name, surname) {
   localStorage.setItem('persons', JSON.stringify(persons))
 }
 
-function d(id) {
+function d (id) {
   return document.getElementById(id)
 }
-function getStudentInfo(studentId) {
-
+function getStudentInfo (studentId) {
   return JSON.parse(localStorage.getItem('students'))[studentId - 1]
 }
 
-function getStudentGrades(studentId) {
-
+function getStudentGrades (studentId) {
   return JSON.parse(localStorage.getItem('grades')).filter(grade => grade.student === studentId)
 }
 
-function getSubjectNameFromSubjectId(subjectId) {
-
+function getSubjectNameFromSubjectId (subjectId) {
   return JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.id === subjectId)[0].name
 }
 
-function getParentNameFromParentId(parentId) {
-
+function getParentNameFromParentId (parentId) {
   return JSON.parse(localStorage.getItem('parents')).filter(parent => parent.id === parentId)[0].name
 }
-function getTeacherInfo(teacherId) {
-
+function getTeacherInfo (teacherId) {
   return JSON.parse(localStorage.getItem('teachers'))[teacherId - 1]
 }
 
-
-function getAllStudents() {
+function getAllStudents () {
   const dataFromStorage = d('mainMenu')
   const allstudents = JSON.parse(localStorage.getItem('students'))
   let output = `<table>
@@ -78,7 +73,7 @@ function getAllStudents() {
   output += '</table>'
   dataFromStorage.innerHTML = output
 }
-function getAllTeachers() {
+function getAllTeachers () {
   const dataFromStorage = d('mainMenu')
   const allTeachers = JSON.parse(localStorage.getItem('teachers'))
   let output = `<table>
@@ -105,14 +100,12 @@ function getAllTeachers() {
   output += '</table>'
   dataFromStorage.innerHTML = output
 }
-function logOutUser() {
-
-  window.location.href = "/src/html/index.html"
+function logOutUser () {
+  window.location.href = '/src/html/index.html'
   sessionStorage.removeItem('user')
 }
 
-function createDisplayForNewStudent() {
-
+function createDisplayForNewStudent () {
   mainMenu.innerHTML = `<form action="" method="post" id="add-new-form">
   <p>
     <label for="name">Name</label>
@@ -140,8 +133,7 @@ function createDisplayForNewStudent() {
 </form>`
 }
 
-function createDisplayForNewTeacher() {
-
+function createDisplayForNewTeacher () {
   mainMenu.innerHTML = `<form action="" method="post" id="add-new-form">
   <p>
     <label for="name">Name</label>
@@ -169,14 +161,12 @@ function createDisplayForNewTeacher() {
 </form>`
 }
 
-
-function createDisplayForStudentInfo(studentId) {
-
-  let studentInfo = getStudentInfo(studentId)
-  let studentGrades = getStudentGrades(studentId)
-  let parentName = getParentNameFromParentId(studentInfo.parentId)
+function createDisplayForStudentInfo (studentId) {
+  const studentInfo = getStudentInfo(studentId)
+  const studentGrades = getStudentGrades(studentId)
+  const parentName = getParentNameFromParentId(studentInfo.parentId)
   let gradesTable = ''
-  for (let grade of studentGrades) {
+  for (const grade of studentGrades) {
     gradesTable += `
       <tr>
           <td>${getSubjectNameFromSubjectId(grade.subject)}</td><td>${grade.valueOfGrade}</td><td>${grade.dateOfGrade}</td>
@@ -193,27 +183,25 @@ function createDisplayForStudentInfo(studentId) {
       <tbody>${gradesTable}</tbody></table>
       <button type='button' class='btn' onclick="createDisplayForNewGrade(${studentInfo.id})">Add Grade</button>
       `
-
 }
-function createDisplayForTeacherInfo(teacherId) {
-
-  let teacherInfo = getTeacherInfo(teacherId)
-  let subjectName = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === teacherId)[0].name
+function createDisplayForTeacherInfo (teacherId) {
+  const teacherInfo = getTeacherInfo(teacherId)
+  const subjectName = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === teacherId)[0].name
   mainMenu.innerHTML = `<h2>${teacherInfo.name} ${teacherInfo.surname}</h2>
-  <h2> Subject : ${subjectName} </h2>` 
+  <h2> Subject : ${subjectName} </h2>`
 }
 
-function addNewGrade(studentId, grade) {
-  let teacher = JSON.parse(sessionStorage.getItem('user'))
-  let subject = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === teacher.id)[0]
-  let allGrades = JSON.parse(localStorage.getItem('grades'))
+function addNewGrade (studentId, grade) {
+  const teacher = JSON.parse(sessionStorage.getItem('user'))
+  const subject = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === teacher.id)[0]
+  const allGrades = JSON.parse(localStorage.getItem('grades'))
   allGrades.push({ studentId, subject, grade })
   localStorage.setItem('grades', JSON.stringify(allGrades))
 }
 
-function createDisplayForNewGrade(studentId) {
-  let teacher = JSON.parse(sessionStorage.getItem('user'))
-  let subject = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === teacher.id)[0]
+function createDisplayForNewGrade (studentId) {
+  const teacher = JSON.parse(sessionStorage.getItem('user'))
+  const subject = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === teacher.id)[0]
   mainMenu.innerHTML = `<form> 
   <p>
   Subject : ${subject.name}
@@ -239,7 +227,6 @@ function createDisplayForNewGrade(studentId) {
   d('submitNewGrade-btn').addEventListener('click',updateGradeStorage)
    </script>
   `
-
 }
 
 logOutButton.addEventListener('click', logOutUser)
@@ -247,4 +234,3 @@ addNewStudentButton.addEventListener('click', createDisplayForNewStudent)
 addNewTeacherButton.addEventListener('click', createDisplayForNewTeacher)
 viewAllStudentsButton.addEventListener('click', getAllStudents)
 viewAllTeachersButton.addEventListener('click', getAllTeachers)
-
