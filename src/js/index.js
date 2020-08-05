@@ -1,7 +1,7 @@
-const loginForm = document.getElementById('login-form')
-const usernameField = document.getElementById('username-field')
-const passwordField = document.getElementById('password-field')
-const errorMessage = document.getElementById('errorMessage')
+const loginForm = d('login-form')
+const usernameField = d('username-field')
+const passwordField = d('password-field')
+const errorMessage = d('errorMessage')
 
 function checkIfUserIsValid (event) {
   event.preventDefault()

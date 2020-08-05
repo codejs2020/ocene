@@ -129,7 +129,7 @@ for (const type in data) {
   }
 }
 
-// if (localStorage.getItem('grades') === null) { // ne briši ako već postoji nešto
+if (localStorage.getItem('grades') === null) { // ne briši ako već postoji nešto
 localStorage.setItem('grades', JSON.stringify(storageData.grades))
 localStorage.setItem('students', JSON.stringify(storageData.students))
 localStorage.setItem('subjects', JSON.stringify(storageData.subjects))
@@ -137,4 +137,4 @@ localStorage.setItem('teachers', JSON.stringify(storageData.teachers))
 localStorage.setItem('parents', JSON.stringify(storageData.parents))
 localStorage.setItem('users', JSON.stringify([...storageData.teachers, ...storageData.parents]))
 localStorage.setItem('persons', JSON.stringify([...storageData.students, ...storageData.teachers]))
-// }
+}
