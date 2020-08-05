@@ -1,3 +1,5 @@
+/* eslint-disable no-undef, no-unused-vars */
+
 const loginForm = d('login-form')
 const usernameField = d('username-field')
 const passwordField = d('password-field')
