@@ -95,7 +95,7 @@ function getAllTeachers () {
   output += '</table>'
   dataFromStorage.innerHTML = output
 }
-function getAllSubjects(){
+function getAllSubjects () {
   const dataFromStorage = d('mainMenu')
   const allSubjects = JSON.parse(localStorage.getItem('subjects'))
   let output = `<table>
@@ -136,8 +136,8 @@ function addNewStudent (studentName, studentSurname, studentClassUnit) {
 function addNewParent (parentName, parentSurname, parentUsername = generateUsername(parentSurname), parentPassword = generatePassword()) {
   const allParents = JSON.parse(localStorage.getItem('parents'))
   const newParentId = parents[parents.length - 1].id
-  allParents.push({ id: Number(newParentId), name: parentName, surname: parentSurname, username: parentUsername, password: parentPassword,typeOfUser:1})
-  localStorage.setItem('parents',JSON.stringify(allParents))
+  allParents.push({ id: Number(newParentId), name: parentName, surname: parentSurname, username: parentUsername, password: parentPassword, typeOfUser: 1 })
+  localStorage.setItem('parents', JSON.stringify(allParents))
 }
 function addNewGrade (studentId, grade) {
   const teacher = JSON.parse(sessionStorage.getItem('user'))
@@ -147,23 +147,24 @@ function addNewGrade (studentId, grade) {
   allGrades.push({ id: lastId + 1, student: Number(studentId), subject: subject.id, valueOfGrade: Number(grade) })
   localStorage.setItem('grades', JSON.stringify(allGrades))
 }
-function addNewTeacher (teacherName,teacherSurname,teacherUsername = generateUsername(teacherSurname),teacherPassword = generatePassword(teacherSurname),subjectId) {
+function addNewTeacher (teacherName, teacherSurname, subjectId) {
   const allTeachers = JSON.parse(sessionStorage.getItem('teachers'))
   const allSubjects = JSON.parse(sessionStorage.getItem('subjects'))
-  const newTeacherId = allTeachers[allTeachers.length -1].id + 1
+  const newTeacherId = allTeachers[allTeachers.length - 1].id + 1
   const teachersSubject = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.id === subjectId)
-  teachersSubject['teacher'] = newTeacherId
+  const teacherPassword = generatePassword(teacherSurname)
+  const teacherUsername = generateUsername(teacherSurname)
+  teachersSubject.teacher = newTeacherId
   allSubjects.push(teachersSubject)
-  localStorage.setItem('subjects',JSON.stringify(allSubjects))   
-  allTeachers.push({id:newTeacherId,name:teacherName,surname:teacherSurname,username:teacherUsername,password:teacherPassword,typeOfUser:2})
-  localStorage.setItem('teachers',JSON.stringify(allTeachers))
-
+  localStorage.setItem('subjects', JSON.stringify(allSubjects))
+  allTeachers.push({ id: newTeacherId, name: teacherName, surname: teacherSurname, username: teacherUsername, password: teacherPassword, typeOfUser: 2 })
+  localStorage.setItem('teachers', JSON.stringify(allTeachers))
 }
-function addNewSubject(subjectName,subjectYear){
+function addNewSubject (subjectName, subjectYear) {
   const allSubjects = JSON.parse(sessionStorage.getItem('subjects'))
-  const newSubjectId = allSubjects[allSubjects.length -1].id + 1
-  allSubjects.push({id:newSubjectId,name:subjectName,teacher:undefined,year:subjectYear})
-  localStorage.setItem('subjects',JSON.stringify(allSubjects))
+  const newSubjectId = allSubjects[allSubjects.length - 1].id + 1
+  allSubjects.push({ id: newSubjectId, name: subjectName, teacher: undefined, year: subjectYear })
+  localStorage.setItem('subjects', JSON.stringify(allSubjects))
 }
 // === UPDATE FUNCTIONS === (TODO)
 
@@ -230,7 +231,7 @@ function createDisplayForNewTeacher () {
   <input type="submit" value="Submit">
 </form>`
 }
-function createDisplayForNewSubject(){
+function createDisplayForNewSubject () {
   mainMenu.innerHTML = `<form>
   <p>
     <label for="name">Name</label>
@@ -244,8 +245,8 @@ function createDisplayForNewSubject(){
   
   <input type="submit" value="Submit">
 </form>`
-const scr = document.createElement('script')
-scr.innerHTML = `  function updateSubjectStorage(event){
+  const scr = document.createElement('script')
+  scr.innerHTML = `  function updateSubjectStorage(event){
   event.preventDefault()
   const newSubjectName = d('name').value
   const newSubjectYear = d('year').value
@@ -253,7 +254,7 @@ scr.innerHTML = `  function updateSubjectStorage(event){
   createDisplayForStudentInfo(newStudentId)
 }
 d('addNewSubject-btn').addEventListener('click',updateSubjectStorage)`
-mainMenu.appendChild(scr)
+  mainMenu.appendChild(scr)
 }
 
 function createDisplayForStudentInfo (studentId) {
@@ -328,4 +329,4 @@ addNewTeacherButton.addEventListener('click', createDisplayForNewTeacher)
 addNewSubjectButton.addEventListener('click', createDisplayForNewSubject)
 viewAllStudentsButton.addEventListener('click', getAllStudents)
 viewAllTeachersButton.addEventListener('click', getAllTeachers)
-viewAllSubjectsButton.addEventListener('click',getAllSubjects)
+viewAllSubjectsButton.addEventListener('click', getAllSubjects)
