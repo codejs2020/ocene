@@ -38,7 +38,7 @@ function getParentNameFromParentId (parentId) {
   return JSON.parse(localStorage.getItem('parents')).filter(parent => parent.id === parentId)[0].name
 }
 function getTeacherInfo (teacherId) {
-  return JSON.parse(localStorage.getItem('teachers'))[teacherId - 1]
+  return JSON.parse(localStorage.getItem('teachers'))[teacherId]
 }
 
 function getAllStudents () {
@@ -125,45 +125,50 @@ function getAllSubjects () {
 
 // === CREATE FUNCTIONS ===
 
-function addNewStudent (studentName, studentSurname, studentClassUnit) {
+function addNewStudent (name, surname, classUnit) {
   const allStudents = JSON.parse(localStorage.getItem('students'))
-  const parents = JSON.parse(localStorage.getItems('parents'))
-  const newParentId = parents[parents.length - 1].id + 1
-  const newStudentId = allStudents[allStudents.length - 1].id + 1
-  allStudents.push({ id: Number(newStudentId), name: studentName, surname: studentSurname, classUnit: Number(studentClassUnit), parentId: Number(newParentId) })
-  localStorage.setItem('students', JSON.stringify(allstudents))
+  const parents = JSON.parse(localStorage.getItem('parents'))
+  const parentId = parents[parents.length - 1].id + 1
+  const id = allStudents[allStudents.length - 1].id + 1
+  allStudents.push({ id, name, surname, classUnit, parentId})
+  localStorage.setItem('students', JSON.stringify(allStudents))
 }
-function addNewParent (parentName, parentSurname, parentUsername = generateUsername(parentSurname), parentPassword = generatePassword()) {
-  const allParents = JSON.parse(localStorage.getItem('parents'))
-  const newParentId = parents[parents.length - 1].id
-  allParents.push({ id: Number(newParentId), name: parentName, surname: parentSurname, username: parentUsername, password: parentPassword, typeOfUser: 1 })
-  localStorage.setItem('parents', JSON.stringify(allParents))
+function addNewParent (name, surname) {
+  const parents = JSON.parse(localStorage.getItem('parents'))
+  const users = JSON.parse(localStorage.getItem('users'))
+  const id = parents[parents.length - 1].id + 1
+  const username = generateUsername(surname)
+  const password = generatePassword()
+  parents.push({ id, name, surname, username, password , typeOfUser: 1 })
+  users.push({ id, name, surname, username, password , typeOfUser: 1 })
+  localStorage.setItem('parents', JSON.stringify(parents))
+  localStorage.setItem('users', JSON.stringify(users))
 }
 function addNewGrade (studentId, grade) {
   const teacher = JSON.parse(sessionStorage.getItem('user'))
   const subject = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === teacher.id)[0]
   const allGrades = JSON.parse(localStorage.getItem('grades'))
   const lastId = allGrades[allGrades.length - 1].id
-  allGrades.push({ id: lastId + 1, student: Number(studentId), subject: subject.id, valueOfGrade: Number(grade) })
+  allGrades.push({ id: lastId + 1, student: Number(studentId), subject: subject.id, valueOfGrade: Number(grade) , dateOfGrade: new Date()})
   localStorage.setItem('grades', JSON.stringify(allGrades))
 }
-function addNewTeacher (teacherName, teacherSurname, subjectId) {
+function addNewTeacher (name, surname, subjectId) {
   const allTeachers = JSON.parse(sessionStorage.getItem('teachers'))
   const allSubjects = JSON.parse(sessionStorage.getItem('subjects'))
-  const newTeacherId = allTeachers[allTeachers.length - 1].id + 1
+  const id = allTeachers[allTeachers.length - 1].id + 1
   const teachersSubject = JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.id === subjectId)
-  const teacherPassword = generatePassword(teacherSurname)
-  const teacherUsername = generateUsername(teacherSurname)
-  teachersSubject.teacher = newTeacherId
+  const password = generatePassword(surname)
+  const username = generateUsername(surname)
+  teachersSubject.teacher = id
   allSubjects.push(teachersSubject)
   localStorage.setItem('subjects', JSON.stringify(allSubjects))
-  allTeachers.push({ id: newTeacherId, name: teacherName, surname: teacherSurname, username: teacherUsername, password: teacherPassword, typeOfUser: 2 })
+  allTeachers.push({ id, name, surname, username, password, typeOfUser: 2 })
   localStorage.setItem('teachers', JSON.stringify(allTeachers))
 }
-function addNewSubject (subjectName, subjectYear) {
-  const allSubjects = JSON.parse(sessionStorage.getItem('subjects'))
-  const newSubjectId = allSubjects[allSubjects.length - 1].id + 1
-  allSubjects.push({ id: newSubjectId, name: subjectName, teacher: undefined, year: subjectYear })
+function addNewSubject (name, year) {
+  const allSubjects = JSON.parse(localStorage.getItem('subjects'))
+  const id = allSubjects[allSubjects.length - 1].id + 1
+  allSubjects.push({ id, name, teacher: 0, year })
   localStorage.setItem('subjects', JSON.stringify(allSubjects))
 }
 // === UPDATE FUNCTIONS === (TODO)
@@ -176,11 +181,11 @@ function createDisplayForNewStudent () {
   mainMenu.innerHTML = `<form>
   <p>
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" required>
+    <input type="text" name="name" id="studentName" required>
   </p>
   <p>
     <label for="surname">Surname</label>
-    <input type="text" name="surname" id="surname" required>
+    <input type="text" name="surname" id="studentSurname" required>
   </p>
   <p>
   <label for="parentName">Parent Name</label>
@@ -194,22 +199,23 @@ function createDisplayForNewStudent () {
   <label for="classUnit">Class Unit</label>
     <input type="text" name="classUnit" id="classUnit" required>
   </p>
-  <input type="submit" value="Submit" id="addNewStudent-btn" class="btn">
+  <input type="submit" value="Submit" id="updateStudentStorage-btn" class="btn">
 </form>`
   const scr = document.createElement('script')
   scr.innerHTML = `  function updateStudentStorage(event){
     event.preventDefault()
-    const newStudentName = d('name').value
-    const newStudentSurname = d('surname').value
+    const newStudentName = d('studentName').value
+    const newStudentSurname = d('studentSurname').value
     const newStudentParentName = d('parentName').value
     const newStudentParentSurname = d('parentSurname').value
     const newStudentClassUnit = d('classUnit').value
-    const newStudentId = students[students.length - 1].id
     addNewStudent(newStudentName,newStudentSurname,newStudentClassUnit)
     addNewParent(newStudentParentName,newStudentParentSurname)
+    const students = JSON.parse(localStorage.getItem('students'))
+    const newStudentId = students[students.length-1].id
     createDisplayForStudentInfo(newStudentId)
   }
-  d('addNewStudent-btn').addEventListener('click',updateStudentStorage)`
+  d('updateStudentStorage-btn').addEventListener('click',updateStudentStorage)`
   mainMenu.appendChild(scr)
 }
 
@@ -243,7 +249,7 @@ function createDisplayForNewSubject () {
   </p>
   <p>
   
-  <input type="submit" value="Submit">
+  <input type="submit" value="Submit" id="updateSubjectStorage-btn">
 </form>`
   const scr = document.createElement('script')
   scr.innerHTML = `  function updateSubjectStorage(event){
@@ -251,9 +257,9 @@ function createDisplayForNewSubject () {
   const newSubjectName = d('name').value
   const newSubjectYear = d('year').value
   addNewSubject(newSubjectName,newSubjectYear)
-  createDisplayForStudentInfo(newStudentId)
+  getAllSubjects()
 }
-d('addNewSubject-btn').addEventListener('click',updateSubjectStorage)`
+d('updateSubjectStorage-btn').addEventListener('click',updateSubjectStorage)`
   mainMenu.appendChild(scr)
 }
 
@@ -313,7 +319,6 @@ function createDisplayForNewGrade () {
   scr.innerHTML = `  function updateGradeStorage(event){
     event.preventDefault()
     const studentId = localStorage.getItem('thisStudent')
-    console.log(studentId)
     addNewGrade(studentId,d('newGrade').value)
     createDisplayForStudentInfo(studentId)
   }
