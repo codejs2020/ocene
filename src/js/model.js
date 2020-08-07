@@ -130,7 +130,6 @@ for (const type in data) {
   }
 }
 
-
 if (localStorage.getItem('grades') === null) { // ne briši ako već postoji nešto
   localStorage.setItem('grades', JSON.stringify(storageData.grades))
   localStorage.setItem('students', JSON.stringify(storageData.students))
@@ -141,6 +140,6 @@ if (localStorage.getItem('grades') === null) { // ne briši ako već postoji ne�
   localStorage.setItem('persons', JSON.stringify([...storageData.students, ...storageData.teachers]))
   // ZAKOMENTARISATI RED 134 i 146 NA POCETKU, da bi mogao novi predmet da se doda bez unapred dodeljekog nastavnika
   teachers = JSON.parse(localStorage.getItem('teachers'))
-  teachers.unshift({id:0,name:'None',surname:'None',username:'none',password:'none'})
-  localStorage.setItem('teachers',JSON.stringify(teachers))
+  teachers.unshift({ id: 0, name: 'None', surname: 'None', username: 'none', password: 'none' })
+  localStorage.setItem('teachers', JSON.stringify(teachers))
 }
