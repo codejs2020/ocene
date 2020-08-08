@@ -37,11 +37,19 @@ function getSubjectNameFromSubjectId (subjectId) {
     (subject) => subject.id === subjectId
   )[0].name
 }
+function getParentInfo (parentId) {
+  return JSON.parse(localStorage.getItem('parents'))[parentId - 1]
+}
 
 function getParentNameFromParentId (parentId) {
   return JSON.parse(localStorage.getItem('parents')).filter(
     (parent) => parent.id === parentId
   )[0].name
+}
+function getParentSurnameFromParentId (parentId) {
+  return JSON.parse(localStorage.getItem('parents')).filter(
+    (parent) => parent.id === parentId
+  )[0].surname
 }
 function getTeacherInfo (teacherId) {
   return JSON.parse(localStorage.getItem('teachers'))[teacherId]
@@ -64,7 +72,7 @@ function getAllStudents () {
     output += `<tr>
         <td>${person.id}</td><td>${person.name}</td>
         <td>${person.surname}</td>
-        <td><button data-id="${person.id}" onclick="editStudent(${person.id})">Edit</button></td>
+        <td><button data-id="${person.id}" onclick="createDisplayForStudentUpdate(${person.id})">Edit</button></td>
         <td>
           <button data-id="${person.id}" onclick="deleteStudent(${person.id})">Delete</button>
           <button data-id="${person.id}" onclick="createDisplayForStudentInfo(${person.id})">View Profile</button>
@@ -195,7 +203,33 @@ function addNewSubject (name, year) {
 }
 // === UPDATE FUNCTIONS === (TODO)
 
-// === DELETE FUNCTIONS ==== (TODO)
+function editStudent (id, name, surname, classUnit) {
+  const allStudents = JSON.parse(localStorage.getItem('students'))
+  changeObjectProperty(id, name, allStudents)
+  changeObjectProperty(id, surname, allStudents)
+  changeObjectProperty(id, classUnit, allStudents)
+  localStorage.setItem('students', JSON.stringify(allStudents))
+}
+function editParent (id, name, surname) {
+  const allParents = JSON.parse(localStorage.getItem('parents'))
+  changeObjectProperty(id, name, allParents)
+  changeObjectProperty(id, surname, allParents)
+  localStorage.setItem('parents', JSON.stringify(allParents))
+}
+function editTeacher (id, name, surname, subjectId) {
+  const allTeachers = JSON.parse(localStorage.getItem('teachers'))
+  changeObjectProperty(id, name, allTeachers)
+  changeObjectProperty(id, surname, allTeachers)
+  changeObjectProperty(id, subjectId, allTeachers)
+  localStorage.setItem('teachers', JSON.stringify(allTeachers))
+}
+function editSubject (id, name, year) {
+  const allSubjects = JSON.parse(localStorage.getItem('subjects'))
+  changeObjectProperty(id, name, allSubjects)
+  changeObjectProperty(id, year, allSubjects)
+  localStorage.setItem('subjects', JSON.stringify(allSubjects))
+}
+// === DELETE FUNCTIONS ====
 
 function deleteStudent (id) {
   const confirmation = confirm('Are you sure?')
@@ -371,6 +405,7 @@ function createDisplayForStudentInfo (studentId) {
       <button type='button' class='btn' onclick="createDisplayForNewGrade(${studentInfo.id})">Add Grade</button>
       `
 }
+
 function createDisplayForTeacherInfo (teacherId) {
   const teacherInfo = getTeacherInfo(teacherId)
   const subjectName = JSON.parse(localStorage.getItem('subjects')).filter(
@@ -410,6 +445,54 @@ function createDisplayForNewGrade () {
     createDisplayForStudentInfo(studentId)
   }
   d('submitNewGrade-btn').addEventListener('click',updateGradeStorage)`
+  mainMenu.appendChild(scr)
+}
+
+function createDisplayForStudentUpdate (id) {
+  const student = JSON.parse(localStorage.getItem('students')).filter(
+    (student) => student.id === id
+  )[0]
+  const parentId = student.parentId
+  const parentName = getParentNameFromParentId(parentId)
+  const parentSurname = getParentSurnameFromParentId(parentId)
+  mainMenu.innerHTML = `<form>
+  <p>
+    <label for="name">Name</label>
+    <input type="hidden" name="studentId" id="studentId" value=${student.id}>
+    <input type="text" name="name" id="studentName" value=${student.name} required>
+  </p>
+  <p>
+    <label for="surname">Surname</label>
+    <input type="text" name="surname" id="studentSurname" value=${student.surname} required>
+  </p>
+  <p>
+  <label for="parentName">Parent Name</label>
+    <input type="text" name="parentName" id="parentName" value=${parentName} required>
+  </p>
+  <p>
+  <label for="parentSurname">Parent Surame</label>
+    <input type="text" name="parentSurname" id="parentSurname" value=${parentSurname} required>
+  </p>
+  <p>
+  <label for="classUnit">Class Unit</label>
+    <input type="text" name="classUnit" id="classUnit" value=${student.classUnit} required>
+  </p>
+  <input type="submit" value="Submit" id="updateStudentStorage-btn" class="btn">
+</form>`
+  const scr = document.createElement('script')
+  scr.innerHTML = `  function updateStudentStorage(event){
+    event.preventDefault()
+    const studentId = d('studentId').value
+    const updatedStudentName = d('studentName').value
+    const updatedStudentSurname = d('studentSurname').value
+    const updatedStudentParentName = d('parentName').value
+    const updatedStudentParentSurname = d('parentSurname').value
+    const updatedStudentClassUnit = d('classUnit').value
+    const parentId = JSON.parse(localStorage.getItem('students')).filter(student => student.id === studentId )[0].parentId
+    editStudent(studentId,updatedStudentName,updatedStudentSurname,updatedStudentClassUnit)
+    editParent(parentId,updatedStudentParentName,updatedStudentParentSurname)
+    createDisplayForStudentInfo(studentId)
+  }`
   mainMenu.appendChild(scr)
 }
 
