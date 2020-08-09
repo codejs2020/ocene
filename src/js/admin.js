@@ -55,94 +55,6 @@ function getTeacherInfo (teacherId) {
   return JSON.parse(localStorage.getItem('teachers'))[teacherId]
 }
 
-function getAllStudents () {
-  const dataFromStorage = d('mainMenu')
-  const allstudents = JSON.parse(localStorage.getItem('students'))
-  let output = `<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Surname</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>`
-  for (const person of allstudents) {
-    output += `<tr>
-        <td>${person.id}</td><td>${person.name}</td>
-        <td>${person.surname}</td>
-        <td><button data-id="${person.id}" onclick="createDisplayForStudentUpdate(${person.id})">Edit</button></td>
-        <td>
-          <button data-id="${person.id}" onclick="deleteStudent(${person.id})">Delete</button>
-          <button data-id="${person.id}" onclick="createDisplayForStudentInfo(${person.id})">View Profile</button>
-        </td>
-      </tr>`
-  }
-  output += '</table>'
-  dataFromStorage.innerHTML = output
-}
-function getAllTeachers () {
-  const dataFromStorage = d('mainMenu')
-  const allTeachers = JSON.parse(localStorage.getItem('teachers'))
-  let output = `<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Surname</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>`
-  for (const person of allTeachers) {
-    output += `<tr>
-        <td>${person.id}</td><td>${person.name}</td>
-        <td>${person.surname}</td>
-        <td><button data-id="${person.id}" onclick="editTeacher(${person.id})">Edit</button></td>
-        <td>
-          <button data-id="${person.id}" onclick="deleteTeacher(${person.id})">Delete</button>
-          <button data-id="${person.id}" onclick="createDisplayForTeacherInfo(${person.id})">View Profile</button>
-        </td>
-      </tr>`
-  }
-  output += '</table>'
-  dataFromStorage.innerHTML = output
-}
-function getAllSubjects () {
-  const dataFromStorage = d('mainMenu')
-  const allSubjects = JSON.parse(localStorage.getItem('subjects'))
-  let output = `<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Year</th>
-      <th>Teacher</th>
-      <th></th>
-    </tr>
-  </thead>`
-  for (const subject of allSubjects) {
-    output += `<tr>
-        <td>${subject.id}</td><td>${subject.name}</td>
-        <td>${subject.year}</td>
-        <td>${getTeacherInfo(subject.teacher).name} ${
-  getTeacherInfo(subject.teacher).surname
-}</td>
-        <td><button data-id="${subject.id}" onclick="editSubject(${
-  subject.id
-})">Edit</button></td>
-        <td>
-          <button data-id="${subject.id}" onclick="deleteSubject(${
-  subject.id
-})">Delete</button>
-        </td>
-      </tr>`
-  }
-  output += '</table>'
-  dataFromStorage.innerHTML = output
-}
-
 // === CREATE FUNCTIONS ===
 
 function addNewStudent (name, surname, classUnit) {
@@ -181,19 +93,19 @@ function addNewGrade (studentId, grade) {
   localStorage.setItem('grades', JSON.stringify(allGrades))
 }
 function addNewTeacher (name, surname, subjectId) {
-  const allTeachers = JSON.parse(sessionStorage.getItem('teachers'))
-  const allSubjects = JSON.parse(sessionStorage.getItem('subjects'))
+  const allTeachers = JSON.parse(localStorage.getItem('teachers'))
+  const allSubjects = JSON.parse(localStorage.getItem('subjects'))
   const id = allTeachers[allTeachers.length - 1].id + 1
   const teachersSubject = JSON.parse(localStorage.getItem('subjects')).filter(
     (subject) => subject.id === subjectId
   )
   const password = generatePassword(surname)
   const username = generateUsername(surname)
+  allTeachers.push({ id, name, surname, username, password, typeOfUser: 2 })
+  localStorage.setItem('teachers', JSON.stringify(allTeachers))
   teachersSubject.teacher = id
   allSubjects.push(teachersSubject)
   localStorage.setItem('subjects', JSON.stringify(allSubjects))
-  allTeachers.push({ id, name, surname, username, password, typeOfUser: 2 })
-  localStorage.setItem('teachers', JSON.stringify(allTeachers))
 }
 function addNewSubject (name, year) {
   const allSubjects = JSON.parse(localStorage.getItem('subjects'))
@@ -259,7 +171,7 @@ function deleteStudent (id) {
       'grades',
       JSON.stringify(gradesWithoutThisStudentsGrades)
     )
-    getAllStudents()
+    createDisplayForAllStudents()
   }
 }
 function deleteTeacher (id) {
@@ -273,7 +185,7 @@ function deleteTeacher (id) {
       'teachers',
       JSON.stringify(teachersWithoutThisTeacher)
     )
-    getAllTeachers()
+    createDisplayForAllTeachers()
   }
 }
 function deleteSubject (id) {
@@ -287,10 +199,100 @@ function deleteSubject (id) {
       'subjects',
       JSON.stringify(subjectsWithoutThisSubject)
     )
-    getAllSubjects()
+    createDisplayForAllSubjects()
   }
 }
 // === DOM FUNCTIONS ===
+
+function createDisplayForAllStudents () {
+  const dataFromStorage = d('mainMenu')
+  const allstudents = JSON.parse(localStorage.getItem('students'))
+  let output = `<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Surname</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>`
+  for (const person of allstudents) {
+    output += `<tr>
+        <td>${person.id}</td><td>${person.name}</td>
+        <td>${person.surname}</td>
+        <td><button data-id="${person.id}" onclick="createDisplayForStudentUpdate(${person.id})">Edit</button></td>
+        <td>
+          <button data-id="${person.id}" onclick="deleteStudent(${person.id})">Delete</button>
+          <button data-id="${person.id}" onclick="createDisplayForStudentInfo(${person.id})">View Profile</button>
+        </td>
+      </tr>`
+  }
+  output += '</table>'
+  dataFromStorage.innerHTML = output
+}
+function createDisplayForAllTeachers () {
+  const dataFromStorage = d('mainMenu')
+  const allTeachers = JSON.parse(localStorage.getItem('teachers'))
+  let output = `<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Surname</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>`
+  for (const person of allTeachers) {
+    output += `<tr>
+        <td>${person.id}</td><td>${person.name}</td>
+        <td>${person.surname}</td>
+        <td><button data-id="${person.id}" onclick="createDisplayForTeacherUpdate(${person.id})">Edit</button></td>
+        <td>
+          <button data-id="${person.id}" onclick="deleteTeacher(${person.id})">Delete</button>
+          <button data-id="${person.id}" onclick="createDisplayForTeacherInfo(${person.id})">View Profile</button>
+        </td>
+      </tr>`
+  }
+  output += '</table>'
+  dataFromStorage.innerHTML = output
+}
+function createDisplayForAllSubjects () {
+  const dataFromStorage = d('mainMenu')
+  const allSubjects = JSON.parse(localStorage.getItem('subjects'))
+  let output = `<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Year</th>
+      <th>Teacher</th>
+      <th></th>
+    </tr>
+  </thead>`
+  for (const subject of allSubjects) {
+    output += `<tr>
+        <td>${subject.id}</td><td>${subject.name}</td>
+        <td>${subject.year}</td>
+        <td>${getTeacherInfo(subject.teacher).name} ${
+  getTeacherInfo(subject.teacher).surname
+}</td>
+        <td><button data-id="${
+  subject.id
+}" onclick="createDisplayForSubjectUpdate(${
+  subject.id
+})">Edit</button></td>
+        <td>
+          <button data-id="${subject.id}" onclick="deleteSubject(${
+  subject.id
+})">Delete</button>
+        </td>
+      </tr>`
+  }
+  output += '</table>'
+  dataFromStorage.innerHTML = output
+}
 
 function createDisplayForNewStudent () {
   mainMenu.innerHTML = `<form>
@@ -372,7 +374,7 @@ function createDisplayForNewSubject () {
   const newSubjectName = d('name').value
   const newSubjectYear = d('year').value
   addNewSubject(newSubjectName,newSubjectYear)
-  getAllSubjects()
+  createDisplayForAllSubjects()
 }
 d('updateSubjectStorage-btn').addEventListener('click',updateSubjectStorage)`
   mainMenu.appendChild(scr)
@@ -477,10 +479,10 @@ function createDisplayForStudentUpdate (id) {
   <label for="classUnit">Class Unit</label>
     <input type="text" name="classUnit" id="classUnit" value=${student.classUnit} required>
   </p>
-  <input type="submit" value="Submit" id="updateStudentStorage-btn" class="btn">
+  <input type="submit" value="Submit" id="editStudentStorage-btn" class="btn">
 </form>`
   const scr = document.createElement('script')
-  scr.innerHTML = `  function updateStudentStorage(event){
+  scr.innerHTML = `  function editStudentStorage(event){
     event.preventDefault()
     const studentId = d('studentId').value
     const updatedStudentName = d('studentName').value
@@ -492,16 +494,86 @@ function createDisplayForStudentUpdate (id) {
     editStudent(studentId,updatedStudentName,updatedStudentSurname,updatedStudentClassUnit)
     editParent(parentId,updatedStudentParentName,updatedStudentParentSurname)
     createDisplayForStudentInfo(studentId)
-  }`
+  }
+  d('editStudentStorage-btn').addEventListener('click',editStudentStorage)`
   mainMenu.appendChild(scr)
 }
 
+function createDisplayForTeacherUpdate (id) {
+  const teacher = JSON.parse(localStorage.getItem('teachers')).filter(
+    (teacher) => teacher.id === id
+  )[0]
+  const teachersSubject = JSON.parse(localStorage.getItem('subjects')).filter(
+    (subject) => subject.teacher === id
+  )[0].id
+  mainMenu.innerHTML = `<form>
+  <p>
+    <label for="name">Name</label>
+    <input type="hidden" name="teacherId" id="teacherId" value=${teacher.id}>
+    <input type="text" name="name" id="teacherName" value=${teacher.name} required>
+  </p>
+  <p>
+    <label for="surname">Surname</label>
+    <input type="text" name="surname" id="teacherSurname" value=${teacher.surname} required>
+  </p>
+  <p>
+  <label for="classUnit">Subject ID</label>
+    <input type="text" name="subject" id="subject" value=${teachersSubject} required>
+  </p>
+  <input type="submit" value="Submit" id="editTeacherStorage-btn" class="btn">
+</form>`
+  const scr = document.createElement('script')
+  scr.innerHTML = `  function editTeacherStorage(event){
+    event.preventDefault()
+    const teacherId = d('teacherId').value
+    const updatedTeacherName = d('teacherName').value
+    const updatedTeacherSurname = d('teacherSurname').value
+    const updatedTeacherSubject = d('subject').value
+    editTeacher(teacherId,updatedTeacherName,updatedTeacherSurname,updatedTeacherSubject)
+    createDisplayForTeacherInfo(teacherId)
+  } 
+  d('editTeacherStorage-btn').addEventListener('click',editTeacherStorage)`
+
+  mainMenu.appendChild(scr)
+}
+
+function createDisplayForSubjectUpdate (id) {
+  const subject = JSON.parse(localStorage.getItem('subjects')).filter(
+    (subject) => subject.id === id
+  )[0]
+
+  mainMenu.innerHTML = `<form>
+  <p>
+    <label for="name">Name</label>
+    <input type="hidden" name="subjectId" id="subjectId" value=${subject.id}>
+    <input type="text" name="name" id="subjectName" value=${subject.name} required>
+  </p>
+  <p>
+    <label for="surname">Year</label>
+    <input type="text" name="year" id="subjectYear" value=${subject.year} required>
+  </p>
+  
+  <input type="submit" value="Submit" id="editSubjectStorage-btn" class="btn">
+</form>`
+  const scr = document.createElement('script')
+  scr.innerHTML = `  function editSubjectStorage(event){
+    event.preventDefault()
+    const subjectId = d('subjectId').value
+    const updatedSubjectName = d('subjectName').value
+    const updatedSubjectYear = d('subjectYear').value
+    editSubject(subjectId,updatedSubjectName,updatedSubjectYear)
+    createDisplayForAllSubjects()
+  } 
+  d('editSubjectStorage-btn').addEventListener('click',editSubjectStorage)`
+
+  mainMenu.appendChild(scr)
+}
 // === EVENT LISTENERS ===
 
 logOutButton.addEventListener('click', logOutUser)
 addNewStudentButton.addEventListener('click', createDisplayForNewStudent)
 addNewTeacherButton.addEventListener('click', createDisplayForNewTeacher)
 addNewSubjectButton.addEventListener('click', createDisplayForNewSubject)
-viewAllStudentsButton.addEventListener('click', getAllStudents)
-viewAllTeachersButton.addEventListener('click', getAllTeachers)
-viewAllSubjectsButton.addEventListener('click', getAllSubjects)
+viewAllStudentsButton.addEventListener('click', createDisplayForAllStudents)
+viewAllTeachersButton.addEventListener('click', createDisplayForAllTeachers)
+viewAllSubjectsButton.addEventListener('click', createDisplayForAllSubjects)

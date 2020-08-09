@@ -40,11 +40,15 @@ class Student {
   }
 
   getAllGrades () {
-    return JSON.parse(localStorage.getItem('grades')).filter(grade => grade.student === this.id)
+    return JSON.parse(localStorage.getItem('grades')).filter(
+      (grade) => grade.student === this.id
+    )
   }
 
   getGradesForSubject (subjectId) {
-    const gradesForSubject = JSON.parse(localStorage.getItem('grades')).filter(subject => subject.id === subjectId && student.id === this.id)
+    const gradesForSubject = JSON.parse(localStorage.getItem('grades')).filter(
+      (subject) => subject.id === subjectId && student.id === this.id
+    )
     return gradesForSubject
   }
 }
@@ -66,7 +70,9 @@ class Parent extends User {
   }
 
   getMyStudent () {
-    return JSON.parse(localStorage.getItem('students')).filter(student => student.parentId === this.id)[0]
+    return JSON.parse(localStorage.getItem('students')).filter(
+      (student) => student.parentId === this.id
+    )[0]
   }
 }
 
@@ -77,12 +83,26 @@ class Teacher extends User {
   }
 
   getSubjects () {
-    return JSON.parse(localStorage.getItem('subjects')).filter(subject => subject.teacher === this.id)
+    return JSON.parse(localStorage.getItem('subjects')).filter(
+      (subject) => subject.teacher === this.id
+    )
   }
 }
 
-const storageData = { subjects: [], students: [], teachers: [], parents: [], grades: [] }
-const constructors = { subjects: Subject, students: Student, teachers: Teacher, parents: Parent, grades: Grade }
+const storageData = {
+  subjects: [],
+  students: [],
+  teachers: [],
+  parents: [],
+  grades: []
+}
+const constructors = {
+  subjects: Subject,
+  students: Student,
+  teachers: Teacher,
+  parents: Parent,
+  grades: Grade
+}
 const data = {
   subjects: [
     ['Mathematics 1', 1, 1],
@@ -93,10 +113,8 @@ const data = {
     ['Marko', 'Markovic', 1, 1],
     ['Maja', 'Majic', 1, 2],
     ['Milos', 'Milosevic', 1, 3]
-
   ],
   teachers: [
-
     ['Rajka', 'Matematicarka', 'rajka', '123'],
     ['Borka', 'Engleskinja', 'borkaEng', '234'],
     ['Zika', 'Istoricar', 'zikaIst', '456']
@@ -130,16 +148,29 @@ for (const type in data) {
   }
 }
 
-if (localStorage.getItem('grades') === null) { // ne briši ako već postoji nešto
+if (localStorage.getItem('grades') === null) {
+  // ne briši ako već postoji nešto
   localStorage.setItem('grades', JSON.stringify(storageData.grades))
   localStorage.setItem('students', JSON.stringify(storageData.students))
   localStorage.setItem('subjects', JSON.stringify(storageData.subjects))
   localStorage.setItem('teachers', JSON.stringify(storageData.teachers))
   localStorage.setItem('parents', JSON.stringify(storageData.parents))
-  localStorage.setItem('users', JSON.stringify([...storageData.teachers, ...storageData.parents]))
-  localStorage.setItem('persons', JSON.stringify([...storageData.students, ...storageData.teachers]))
+  localStorage.setItem(
+    'users',
+    JSON.stringify([...storageData.teachers, ...storageData.parents])
+  )
+  localStorage.setItem(
+    'persons',
+    JSON.stringify([...storageData.students, ...storageData.teachers])
+  )
   // ZAKOMENTARISATI RED 134 i 146 NA POCETKU, da bi mogao novi predmet da se doda bez unapred dodeljekog nastavnika
   teachers = JSON.parse(localStorage.getItem('teachers'))
-  teachers.unshift({ id: 0, name: 'None', surname: 'None', username: 'none', password: 'none' })
+  teachers.unshift({
+    id: 0,
+    name: 'None',
+    surname: 'None',
+    username: 'none',
+    password: 'none'
+  })
   localStorage.setItem('teachers', JSON.stringify(teachers))
 }
