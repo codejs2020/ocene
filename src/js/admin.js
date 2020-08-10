@@ -28,7 +28,7 @@ function addNewStudent (name, surname, classUnit) {
   const parentId = parents[parents.length - 1].id + 1
   const id = allStudents[allStudents.length - 1].id + 1
   allStudents.push({ id, name, surname, classUnit, parentId })
-  localStorage.setItem('students', JSON.stringify(allStudents))
+  addToStorage('students', allStudents)
 }
 function addNewParent (name, surname) {
   const parents = getDataFromStorage('parents')
@@ -38,8 +38,8 @@ function addNewParent (name, surname) {
   const password = generatePassword(8)
   parents.push({ id, name, surname, username, password, typeOfUser: 1 })
   users.push({ id, name, surname, username, password, typeOfUser: 1 })
-  localStorage.setItem('parents', JSON.stringify(parents))
-  localStorage.setItem('users', JSON.stringify(users))
+  addToStorage('parents', parents)
+  addToStorage('users', users)
 }
 function addNewGrade (studentId, grade) {
   const teacher = JSON.parse(sessionStorage.getItem('user'))
@@ -55,7 +55,7 @@ function addNewGrade (studentId, grade) {
     valueOfGrade: Number(grade),
     dateOfGrade: new Date()
   })
-  localStorage.setItem('grades', JSON.stringify(allGrades))
+  addToStorage('grades', allGrades)
 }
 function addNewTeacher (name, surname, subjectId) {
   const allTeachers = getDataFromStorage('teachers')
@@ -67,16 +67,16 @@ function addNewTeacher (name, surname, subjectId) {
   const password = generatePassword(8)
   const username = generateUsername(surname)
   allTeachers.push({ id, name, surname, username, password, typeOfUser: 2 })
-  localStorage.setItem('teachers', JSON.stringify(allTeachers))
+  addToStorage('teachers', allTeachers)
   teachersSubject.teacher = id
   allSubjects.push(teachersSubject)
-  localStorage.setItem('subjects', JSON.stringify(allSubjects))
+  addToStorage('subjects', allSubjects)
 }
 function addNewSubject (name, year) {
   const allSubjects = getDataFromStorage('subjects')
   const id = allSubjects[allSubjects.length - 1].id + 1
   allSubjects.push({ id, name, teacher: 0, year })
-  localStorage.setItem('subjects', JSON.stringify(allSubjects))
+  addToStorage('subjects', allSubjects)
 }
 // === UPDATE FUNCTIONS === (TODO)
 
@@ -85,26 +85,26 @@ function editStudent (id, name, surname, classUnit) {
   changeObjectProperty(id, name, allStudents)
   changeObjectProperty(id, surname, allStudents)
   changeObjectProperty(id, classUnit, allStudents)
-  localStorage.setItem('students', JSON.stringify(allStudents))
+  addToStorage('students', allStudents)
 }
 function editParent (id, name, surname) {
   const allParents = getDataFromStorage('parents')
   changeObjectProperty(id, name, allParents)
   changeObjectProperty(id, surname, allParents)
-  localStorage.setItem('parents', JSON.stringify(allParents))
+  addToStorage('parents', allParents)
 }
 function editTeacher (id, name, surname, subjectId) {
   const allTeachers = getDataFromStorage('teachers')
   changeObjectProperty(id, name, allTeachers)
   changeObjectProperty(id, surname, allTeachers)
   changeObjectProperty(id, subjectId, allTeachers)
-  localStorage.setItem('teachers', JSON.stringify(allTeachers))
+  addToStorage('teachers', allTeachers)
 }
 function editSubject (id, name, year) {
   const allSubjects = getDataFromStorage('subjects')
   changeObjectProperty(id, name, allSubjects)
   changeObjectProperty(id, year, allSubjects)
-  localStorage.setItem('subjects', JSON.stringify(allSubjects))
+  addToStorage('subjects', allSubjects)
 }
 // === DELETE FUNCTIONS ====
 
@@ -126,16 +126,15 @@ function deleteStudent (id) {
     const gradesWithoutThisStudentsGrades = allGrades.filter(
       (grade) => grade.student !== id
     )
-    localStorage.setItem(
+    addToStorage(
       'students',
-      JSON.stringify(studentsWithoutThisStudent)
-    )
+      studentsWithoutThisStudent)
 
-    localStorage.setItem('parents', JSON.stringify(parentsWithoutThisParent))
-    localStorage.setItem(
+    addToStorage('parents', parentsWithoutThisParent)
+    addToStorage(
       'grades',
-      JSON.stringify(gradesWithoutThisStudentsGrades)
-    )
+      gradesWithoutThisStudentsGrades)
+
     createDisplayForAllStudents()
   }
 }
@@ -146,10 +145,10 @@ function deleteTeacher (id) {
     const teachersWithoutThisTeacher = allTeachers.filter(
       (teacher) => teacher.id !== id
     )
-    localStorage.setItem(
+    addToStorage(
       'teachers',
-      JSON.stringify(teachersWithoutThisTeacher)
-    )
+      teachersWithoutThisTeacher)
+
     createDisplayForAllTeachers()
   }
 }
@@ -160,10 +159,10 @@ function deleteSubject (id) {
     const subjectsWithoutThisSubject = allSubjects.filter(
       (subject) => subject.id !== id
     )
-    localStorage.setItem(
+    addToStorage(
       'subjects',
-      JSON.stringify(subjectsWithoutThisSubject)
-    )
+      subjectsWithoutThisSubject)
+
     createDisplayForAllSubjects()
   }
 }

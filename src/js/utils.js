@@ -75,3 +75,6 @@ function changeObjectProperty (objectId, desc, array) {
 function getDataFromStorage (collection) {
   return JSON.parse(localStorage.getItem(collection))
 }
+function addToStorage (collection, items) {
+  localStorage.setItem(collection, JSON.stringify(items))
+}
