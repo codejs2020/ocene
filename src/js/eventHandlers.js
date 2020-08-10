@@ -60,11 +60,4 @@ function editTeacherEventHandler (event) {
   createDisplayForTeacherInfo(id)
 }
 
-function editSubjectEventHandler (event) {
-  event.preventDefault()
-  const id = d('subjectId').value
-  const name = d('subjectName').value
-  const year = d('subjectYear').value
-  editSubject(id, name, year)
-  createDisplayForAllSubjects()
-}
+

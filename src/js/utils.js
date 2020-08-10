@@ -64,11 +64,19 @@ function logOutUser () {
   window.location.href = '/src/html/index.html'
   sessionStorage.removeItem('user')
 }
-function changeObjectProperty (objectId, desc, array) {
+
+function edit(id, table, obj) {
+  const all = getDataFromStorage(table)
+  changeObjectProperty(id, obj, all)
+  addToStorage(table, all)
+}
+
+function changeObjectProperty (objectId, obj, array) {
   for (const i in array) {
     if (array[i].id === objectId) {
-      array[i].desc = desc
-      break
+      for (const index in obj) {
+        array[i][index] = obj[index]
+      }
     }
   }
 }

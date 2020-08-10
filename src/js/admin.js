@@ -80,31 +80,17 @@ function addNewSubject (name, year) {
 }
 // === UPDATE FUNCTIONS === (TODO)
 
-function editStudent (id, name, surname, classUnit) {
-  const allStudents = getDataFromStorage('students')
-  changeObjectProperty(id, name, allStudents)
-  changeObjectProperty(id, surname, allStudents)
-  changeObjectProperty(id, classUnit, allStudents)
-  addToStorage('students', allStudents)
+function editStudent (id, ...elements) {
+  edit(id, 'students',elements)
 }
-function editParent (id, name, surname) {
-  const allParents = getDataFromStorage('parents')
-  changeObjectProperty(id, name, allParents)
-  changeObjectProperty(id, surname, allParents)
-  addToStorage('parents', allParents)
+function editParent(id, ...elements) {
+  edit(id, 'parents',elements)
 }
-function editTeacher (id, name, surname, subjectId) {
-  const allTeachers = getDataFromStorage('teachers')
-  changeObjectProperty(id, name, allTeachers)
-  changeObjectProperty(id, surname, allTeachers)
-  changeObjectProperty(id, subjectId, allTeachers)
-  addToStorage('teachers', allTeachers)
+function editTeacher(id, ...elements) {
+  edit(id, 'teachers',elements)
 }
-function editSubject (id, name, year) {
-  const allSubjects = getDataFromStorage('subjects')
-  changeObjectProperty(id, name, allSubjects)
-  changeObjectProperty(id, year, allSubjects)
-  addToStorage('subjects', allSubjects)
+function editSubject(id, ...elements) {
+  edit(id, 'subjects', elements)
 }
 // === DELETE FUNCTIONS ====
 

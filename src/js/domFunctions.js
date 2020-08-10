@@ -2,6 +2,46 @@
 
 // === DOM FUNCTIONS ===
 
+
+document.getElementById('mainMenu').addEventListener('click', mainListener)
+document.getElementById('mainMenu').addEventListener('submit', submitMainListener)
+
+function submitMainListener(event) {
+  if (event.target.tagName === 'FORM') {
+    event.preventDefault()
+  }
+}
+
+function mainListener(event) {
+  const target = event.target
+  const dataset = target.dataset
+  if (dataset) {
+    if (dataset.type === 'student') {
+      if (dataset.action === 'edit') {
+        createDisplayForStudentUpdate(dataset.id)
+      }else if (dataset.action === 'delete') {
+        deleteStudent(dataset.id)
+      }else if (dataset.action === 'view') {
+        createDisplayForStudentInfo(dataset.id)
+      }
+    }
+  }
+
+  if (target.id === 'editSubjectStorage-btn') {
+    editSubjectEventHandler()
+  }
+
+}
+
+function editSubjectEventHandler () {
+  const id = d('subjectId').value
+  const name = d('subjectName').value
+  const year = d('subjectYear').value
+  editSubject(id, name, year)
+  createDisplayForAllSubjects()
+}
+
+
 function createDisplayForAllStudents () {
   const dataFromStorage = d('mainMenu')
   const allstudents = getDataFromStorage('students')
@@ -19,10 +59,10 @@ function createDisplayForAllStudents () {
     output += `<tr>
           <td>${person.id}</td><td>${person.name}</td>
           <td>${person.surname}</td>
-          <td><button data-id="${person.id}" onclick="createDisplayForStudentUpdate(${person.id})">Edit</button></td>
+          <td><button data-type='student' data-id="${person.id}" data-action="edit">Edit</button></td>
           <td>
-            <button data-id="${person.id}" onclick="deleteStudent(${person.id})">Delete</button>
-            <button data-id="${person.id}" onclick="createDisplayForStudentInfo(${person.id})">View Profile</button>
+            <button data-type='student' data-id="${person.id}" data-action="delete">Delete</button>
+            <button data-type='student' data-id="${person.id}" data-action="view">View Profile</button>
           </td>
         </tr>`
   }
@@ -46,7 +86,7 @@ function createDisplayForAllTeachers () {
     output += `<tr>
           <td>${person.id}</td><td>${person.name}</td>
           <td>${person.surname}</td>
-          <td><button data-id="${person.id}" onclick="createDisplayForTeacherUpdate(${person.id})">Edit</button></td>
+          <td><button data-id="${person.id}" onclick="createDisplayForTeacherUpdate()">Edit</button></td>
           <td>
             <button data-id="${person.id}" onclick="deleteTeacher(${person.id})">Delete</button>
             <button data-id="${person.id}" onclick="createDisplayForTeacherInfo(${person.id})">View Profile</button>
@@ -76,9 +116,7 @@ function createDisplayForAllSubjects () {
           <td>${getTeacherInfo(subject.teacher).name} ${
   getTeacherInfo(subject.teacher).surname
 }</td>
-          <td><button data-id="${
-  subject.id
-}" onclick="createDisplayForSubjectUpdate(${
+          <td><button data-id="${subject.id}" onclick="createDisplayForSubjectUpdate(${
   subject.id
 })">Edit</button></td>
           <td>
@@ -135,7 +173,7 @@ function createDisplayForNewTeacher () {
     <label for="subject">Subject ID</label>
       <input type="text" name="subject" id="subject" required>
     </p>
-  
+
     <input type="submit" value="Submit" id='updateTeacherStorage-btn' class='btn'>
   </form>`
   const scr = document.createElement('script')
@@ -153,7 +191,7 @@ function createDisplayForNewSubject () {
       <input type="text" name="year" id="year" required>
     </p>
     <p>
-    
+
     <input type="submit" value="Submit" id="updateSubjectStorage-btn">
   </form>`
   const scr = document.createElement('script')
@@ -177,8 +215,8 @@ function createDisplayForStudentInfo (id) {
   }
 
   mainMenu.innerHTML = `
-    
-    <h2>${studentInfo.name} ${studentInfo.surname} , Class : ${studentInfo.classUnit}</h2> 
+
+    <h2>${studentInfo.name} ${studentInfo.surname} , Class : ${studentInfo.classUnit}</h2>
     <h2>Parent Name : ${parentName}</h2>
     <h2>Student ID : ${studentInfo.id}</h2>
     <h2> Student Grades : </h2>
@@ -203,7 +241,7 @@ function createDisplayForNewGrade () {
   const subject = getDataFromStorage('subjects').filter(
     (subject) => subject.teacher === teacher.id
   )[0]
-  mainMenu.innerHTML = `<form> 
+  mainMenu.innerHTML = `<form>
     <p>
     Subject : ${subject.name}
   </p>
@@ -217,8 +255,8 @@ function createDisplayForNewGrade () {
       <option value=5>5</option>
       </select>
     </p>
-   
-  <input type="submit" id="submitNewGrade-btn" class="btn" value="Submit"> 
+
+  <input type="submit" id="submitNewGrade-btn" class="btn" value="Submit">
     </form>`
   const scr = document.createElement('script')
   scr.innerHTML = 'd(\'submitNewGrade-btn\').addEventListener(\'click\',updateGradeEventHandler)'
@@ -305,11 +343,7 @@ function createDisplayForSubjectUpdate (id) {
       <label for="surname">Year</label>
       <input type="text" name="year" id="subjectYear" value=${subject.year} required>
     </p>
-    
+
     <input type="submit" value="Submit" id="editSubjectStorage-btn" class="btn">
   </form>`
-  const scr = document.createElement('script')
-  scr.innerHTML = 'd(\'editSubjectStorage-btn\').addEventListener(\'click\',editSubjectEventHandler)'
-
-  mainMenu.appendChild(scr)
 }
