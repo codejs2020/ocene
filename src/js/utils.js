@@ -1,13 +1,47 @@
 /* eslint-disable no-undef, no-unused-vars */
 
+// === READ FUNCTIONS ===
+
+function getStudentInfo (studentId) {
+  return getDataFromStorage('students')[studentId - 1]
+}
+
+function getStudentGrades (studentId) {
+  return getDataFromStorage('grades').filter(
+    (grade) => grade.student === studentId
+  )
+}
+
+function getSubjectNameFromSubjectId (subjectId) {
+  return getDataFromStorage('subjects').filter(
+    (subject) => subject.id === subjectId
+  )[0].name
+}
+function getParentInfo (parentId) {
+  return getDataFromStorage('parents')[parentId - 1]
+}
+
+function getParentNameFromParentId (parentId) {
+  return getDataFromStorage('parents').filter(
+    (parent) => parent.id === parentId
+  )[0].name
+}
+function getParentSurnameFromParentId (parentId) {
+  return getDataFromStorage('parents').filter(
+    (parent) => parent.id === parentId
+  )[0].surname
+}
+function getTeacherInfo (teacherId) {
+  return getDataFromStorage('teachers')[teacherId]
+}
+
 // === UTILITY FUNCTIONS ===
 
 function d (id) {
   return document.getElementById(id)
 }
 
-function generatePassword () {
-  const length = 8
+function generatePassword (length) {
   const charset =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   let passwd = ''
@@ -37,4 +71,7 @@ function changeObjectProperty (objectId, desc, array) {
       break
     }
   }
+}
+function getDataFromStorage (collection) {
+  return JSON.parse(localStorage.getItem(collection))
 }

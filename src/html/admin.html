@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/css/style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap"
-      rel="stylesheet"
-    />
-    <title>CRUD</title>
-  </head>
-  <body>
-    <div id="container">
-      <h2 id="userGreeting"></h2>
 
-      <button type="button" class="btn" id="addNewStudent-btn">
-        Add new Student
-      </button>
-      <button type="button" class="btn" id="addNewTeacher-btn">
-        Add new Teacher
-      </button>
-      <button type="button" class="btn" id="addNewSubject-btn">
-        Add new Subject
-      </button>
-      <button type="button" class="btn" id="viewAllStudents-btn">
-        View All Students
-      </button>
-      <button type="button" class="btn" id="viewAllTeachers-btn">
-        View All Teachers
-      </button>
-      <button type="button" class="btn" id="viewAllSubjects-btn">
-        View All Subjects
-      </button>
-      <button type="button" id="logout-btn" class="btn">Log out</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/src/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet" />
+  <title>CRUD</title>
+</head>
 
-      <div id="mainMenu">
-        <h2>Please choose an option</h2>
-      </div>
+<body>
+  <div id="container">
+    <h2 id="userGreeting"></h2>
+
+    <button type="button" class="btn" id="addNewStudent-btn">
+      Add new Student
+    </button>
+    <button type="button" class="btn" id="addNewTeacher-btn">
+      Add new Teacher
+    </button>
+    <button type="button" class="btn" id="addNewSubject-btn">
+      Add new Subject
+    </button>
+    <button type="button" class="btn" id="viewAllStudents-btn">
+      View All Students
+    </button>
+    <button type="button" class="btn" id="viewAllTeachers-btn">
+      View All Teachers
+    </button>
+    <button type="button" class="btn" id="viewAllSubjects-btn">
+      View All Subjects
+    </button>
+    <button type="button" id="logout-btn" class="btn">Log out</button>
+
+    <div id="mainMenu">
+      <h2>Please choose an option</h2>
     </div>
-    <script src="/src/js/utils.js"></script>
-    <script src="/src/js/model.js"></script>
-    <script src="/src/js/admin.js"></script>
-  </body>
+  </div>
+  <script src="/src/js/utils.js"></script>
+  <script src="/src/js/model.js"></script>
+  <script src="/src/js/domFunctions.js"></script>
+  <script src="/src/js/eventHandlers.js"></script>
+  <script src="/src/js/admin.js"></script>
+</body>
+
 </html>
