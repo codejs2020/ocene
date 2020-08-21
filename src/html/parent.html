@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap"
+      rel="stylesheet"
+    />
+    <title>Parent</title>
+  </head>
+  <body>
+    <div id="container">
+      <button type="button" id="printGrades-btn" class="btn">
+        Print Grades
+      </button>
+      <button type="button" id="logout-btn" class="btn">Log out</button>
+      <h2 id="parentGreeting"></h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Grade</th>
+            <th>Date of Grade</th>
+          </tr>
+        </thead>
+        <tbody id="dataFromLS"></tbody>
+      </table>
+    </div>
+    <script src="/src/js/utils.js"></script>
+    <script src="/src/js/model.js"></script>
+    <script src="/src/js/parent.js"></script>
+  </body>
+</html>

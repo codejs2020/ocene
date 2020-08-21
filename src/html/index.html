@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap"
+      rel="stylesheet"
+    />
+    <title>Ocene</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <form action="POST" id="login-form">
+        <h1>Electronic School Journal</h1>
+        <input
+          type="text"
+          class="login-field"
+          placeholder="Enter username"
+          id="username-field"
+          required
+        />
+        <input
+          type="password"
+          class="login-field"
+          placeholder="Enter password"
+          id="password-field"
+          required
+        />
+        <input
+          type="submit"
+          value="LOGIN"
+          id="login-submit-button"
+          class="btn"
+        />
+        <h3 id="errorMessage" class="redText"></h3>
+      </form>
+    </div>
+    <script src="/src/js/utils.js"></script>
+    <script src="/src/js/index.js"></script>
+    <script src="/src/js/model.js"></script>
+  </body>
+</html>
